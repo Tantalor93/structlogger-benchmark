@@ -1,0 +1,19 @@
+Benchmark                                       Mode  Cnt        Score        Error  Units
+MyBenchmark.ngmonStructLoggerBenchmark128Calls  avgt  200  7119024.639 ± 300110.357  ns/op
+MyBenchmark.ngmonStructLoggerBenchmark16Calls   avgt  200   845337.523 ± 421147.986  ns/op
+MyBenchmark.ngmonStructLoggerBenchmark1Call     avgt  200    81360.261 ±   5270.430  ns/op
+MyBenchmark.ngmonStructLoggerBenchmark32Calls   avgt  200  1706403.761 ±  80494.891  ns/op
+MyBenchmark.ngmonStructLoggerBenchmark64Calls   avgt  200  3552266.709 ± 187267.561  ns/op
+MyBenchmark.ngmonStructLoggerBenchmark8Calls    avgt  200   394081.715 ±  34304.533  ns/op
+MyBenchmark.slf4jLoggerBenchmark128Calls        avgt  200  1697904.636 ± 227213.880  ns/op
+MyBenchmark.slf4jLoggerBenchmark16Calls         avgt  200   229875.403 ±  11605.411  ns/op
+MyBenchmark.slf4jLoggerBenchmark1Call           avgt  200    13011.323 ±   1729.429  ns/op
+MyBenchmark.slf4jLoggerBenchmark32Calls         avgt  200   563001.916 ± 406456.552  ns/op
+MyBenchmark.slf4jLoggerBenchmark64Calls         avgt  200   957755.960 ± 126740.114  ns/op
+MyBenchmark.slf4jLoggerBenchmark8Calls          avgt  200    96479.511 ±   7957.945  ns/op
+MyBenchmark.structLoggerBenchmark128Calls       avgt  200  2909548.147 ± 408932.285  ns/op
+MyBenchmark.structLoggerBenchmark16Calls        avgt  200   295224.569 ±  17170.491  ns/op
+MyBenchmark.structLoggerBenchmark1Call          avgt  200    21319.512 ±   2046.333  ns/op
+MyBenchmark.structLoggerBenchmark32Calls        avgt  200   528370.155 ±  48074.544  ns/op
+MyBenchmark.structLoggerBenchmark64Calls        avgt  200  1599972.510 ±  59415.647  ns/op
+MyBenchmark.structLoggerBenchmark8Calls         avgt  200   185989.062 ±  16675.187  ns/op
