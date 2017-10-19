@@ -31,13 +31,14 @@
 
 package cz.muni.fi;
 
-import com.example.SimpleLogger;
 import cz.muni.fi.annotation.VarContext;
-import org.ngmon.structlog.StructLog;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Warmup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +53,8 @@ public class MyBenchmark {
 
     private static Logger logger = LoggerFactory.getLogger("MyBenchmark");
 
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void structLoggerBenchmark1Call() {
         structLogger.info("test {} string literal {}")
@@ -60,277 +63,131 @@ public class MyBenchmark {
                 .log();
     }
 
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void slf4jLoggerBenchmark1Call() {
         logger.info("test {} string literal {}", 1.2, false);
     }
 
-    @Benchmark
-    public void ngmonStructLoggerBenchmark1Call() throws Exception {
-        StructLog<MyContext> LOGX = new StructLog<>(MyContext.class, new SimpleLogger());
-
-        LOGX.info("test {} string literal {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .log();
-    }
-
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void structLoggerBenchmark8Calls() {
-        make8StructLoggerCalls();
+        structLogger8Calls(1);
     }
 
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void slf4jLoggerBenchmark8Calls() {
-        make8Slf4jLogCalls();
+        slf4jLog8Calls(1);
     }
 
-    @Benchmark
-    public void ngmonStructLoggerBenchmark8Calls() throws Exception {
-        make8NgmonStructLogCalls();
-    }
-
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void structLoggerBenchmark16Calls() {
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
+        structLogger8Calls(2);
     }
 
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void slf4jLoggerBenchmark16Calls() {
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
+        slf4jLog8Calls(2);
     }
 
-    @Benchmark
-    public void ngmonStructLoggerBenchmark16Calls() throws Exception {
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-    }
-
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void structLoggerBenchmark32Calls() {
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
+        structLogger8Calls(4);
     }
 
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void slf4jLoggerBenchmark32Calls() {
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
+        slf4jLog8Calls(4);
     }
 
-    @Benchmark
-    public void ngmonStructLoggerBenchmark32Calls() throws Exception {
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-    }
-
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void structLoggerBenchmark64Calls() {
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
-        make8StructLoggerCalls();
+        structLogger8Calls(8);
     }
 
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
     @Benchmark
     public void slf4jLoggerBenchmark64Calls() {
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
-        make8Slf4jLogCalls();
+        slf4jLog8Calls(8);
     }
 
-    @Benchmark
-    public void ngmonStructLoggerBenchmark64Calls() throws Exception {
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
-        make8NgmonStructLogCalls();
+    private void structLogger8Calls(int number) {
+        for(int i = 0; i < number; i++) {
+            structLogger.info("test {} string literal {}")
+                    .varDouble(1.2)
+                    .varBoolean(false)
+                    .log();
+
+            structLogger.info("test {}")
+                    .varInt(1)
+                    .log();
+
+            structLogger.info("test {} string literal {} for {}")
+                    .varDouble(1.2)
+                    .varBoolean(false)
+                    .varString("ahojky")
+                    .log();
+
+            structLogger.info("test {} string literal {} for long {} and {}")
+                    .varDouble(1.2)
+                    .varBoolean(false)
+                    .varLong(1)
+                    .varString("tudu")
+                    .log();
+
+            structLogger.info("testik {}")
+                    .varDouble(1.2)
+                    .log();
+
+            structLogger.error("errorek {} {} {}")
+                    .varString("super error")
+                    .varLong(42)
+                    .varBoolean(true)
+                    .log();
+
+            structLogger.warn("warning {} {} {}")
+                    .varBoolean(true)
+                    .varBoolean(false)
+                    .varInt(1)
+                    .log();
+
+            structLogger.error("ulala")
+                    .log();
+        }
     }
 
-    @Benchmark
-    public void structLoggerBenchmark128Calls() {
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-        this.make8StructLoggerCalls();
-    }
+    private void slf4jLog8Calls(int number) {
+        for(int i = 0; i < number; i++) {
+            logger.info("test {} string literal {}", 1.2, false);
 
-    @Benchmark
-    public void slf4jLoggerBenchmark128Calls() {
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-        this.make8Slf4jLogCalls();
-    }
+            logger.info("test {}", 1);
 
-    @Benchmark
-    public void ngmonStructLoggerBenchmark128Calls() throws Exception {
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-        this.make8NgmonStructLogCalls();
-    }
+            logger.info("test {} string literal {} for {}", 1.2, false, "ahojky");
 
-    private void make8StructLoggerCalls() {
-        structLogger.info("test {} string literal {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .log();
+            logger.info("test {} string literal {} for long {} and {}", 1.2, false, 1, "tudu");
 
-        structLogger.info("test {}")
-                .varInt(1)
-                .log();
+            logger.info("testik {}", 1.2);
 
-        structLogger.info("test {} string literal {} for {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .varString("ahojky")
-                .log();
+            logger.error("errorek {} {} {}", "super error", 42, true);
 
-        structLogger.info("test {} string literal {} for long {} and {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .varLong(1)
-                .varString("tudu")
-                .log();
+            logger.warn("warning {} {} {}", true, false, 1);
 
-        structLogger.info("testik {}")
-                .varDouble(1.2)
-                .log();
-
-        structLogger.error("errorek {} {} {}")
-                .varString("super error")
-                .varLong(42)
-                .varBoolean(true)
-                .log();
-
-        structLogger.warn("warning {} {} {}")
-                .varBoolean(true)
-                .varBoolean(false)
-                .varInt(1)
-                .log();
-
-        structLogger.error("ulala")
-                .log();
-    }
-
-    private void make8Slf4jLogCalls() {
-        logger.info("test {} string literal {}", 1.2, false);
-
-        logger.info("test {}", 1);
-
-        logger.info("test {} string literal {} for {}", 1.2, false, "ahojky");
-
-        logger.info("test {} string literal {} for long {} and {}", 1.2, false, 1, "tudu");
-
-        logger.info("testik {}", 1.2);
-
-        logger.error("errorek {} {} {}", "super error", 42, true);
-
-        logger.warn("warning {} {} {}", true, false, 1);
-
-        logger.error("ulala");
-    }
-
-    private void make8NgmonStructLogCalls() throws com.fasterxml.jackson.databind.JsonMappingException {
-        StructLog<MyContext> LOGX = new StructLog<>(MyContext.class, new SimpleLogger());
-
-        LOGX.info("test {} string literal {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .log();
-
-        LOGX.info("test {}")
-                .varInt(1)
-                .log();
-
-        LOGX.info("test {} string literal {} for {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .varString("ahojky")
-                .log();
-
-        LOGX.info("test {} string literal {} for long {} and {}")
-                .varDouble(1.2)
-                .varBoolean(false)
-                .varLong(1)
-                .varString("tudu")
-                .log();
-
-        LOGX.info("testik {}")
-                .varDouble(1.2)
-                .log();
-
-        LOGX.error("errorek {} {} {}")
-                .varString("super error")
-                .varLong(42)
-                .varBoolean(true)
-                .log();
-
-        LOGX.info("warning {} {} {}")
-                .varBoolean(true)
-                .varBoolean(false)
-                .varInt(1)
-                .log();
-
-        LOGX.error("ulala")
-                .log();
+            logger.error("ulala");
+        }
     }
 }

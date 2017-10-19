@@ -1,2 +1,6 @@
 *.iml
 target
+schemas
+benchmark.log
+out.txt
+.idea
