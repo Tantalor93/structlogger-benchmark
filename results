@@ -1,0 +1,11 @@
+benchmark                                 Mode  Cnt        Score       Error  Units
+MyBenchmark.slf4jLoggerBenchmark16Calls   avgt   50    54651.162 ±  9032.821  ns/op
+MyBenchmark.slf4jLoggerBenchmark1Call     avgt   50     3928.554 ±  1122.096  ns/op
+MyBenchmark.slf4jLoggerBenchmark32Calls   avgt   50   101879.028 ±  5969.101  ns/op
+MyBenchmark.slf4jLoggerBenchmark64Calls   avgt   50   224223.931 ± 21860.690  ns/op
+MyBenchmark.slf4jLoggerBenchmark8Calls    avgt   50    27066.447 ±  1038.696  ns/op
+MyBenchmark.structLoggerBenchmark16Calls  avgt   50   369797.773 ± 91387.030  ns/op
+MyBenchmark.structLoggerBenchmark1Call    avgt   50    17295.430 ±  2779.308  ns/op
+MyBenchmark.structLoggerBenchmark32Calls  avgt   50   519471.992 ± 73416.423  ns/op
+MyBenchmark.structLoggerBenchmark64Calls  avgt   50  1016278.957 ± 82693.868  ns/op
+MyBenchmark.structLoggerBenchmark8Calls   avgt   50   131243.226 ± 18634.732  ns/op

@@ -50,7 +50,7 @@ public class MyBenchmark {
     @VarContext(context = DefaultContext.class)
     private static StructLogger<DefaultContext> structLogger = StructLogger.instance();
 
-    private static Logger logger = LoggerFactory.getLogger("MyBenchmark");
+    private static Logger logger = LoggerFactory.getLogger("MyBenchmark2");
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)

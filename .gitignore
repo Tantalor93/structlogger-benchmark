@@ -1,6 +1,6 @@
 *.iml
 target
 schemas
-benchmark.log
+benchmark*.log
 out.txt
 .idea
