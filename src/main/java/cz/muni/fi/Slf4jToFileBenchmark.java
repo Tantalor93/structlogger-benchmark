@@ -71,7 +71,7 @@ public class Slf4jToFileBenchmark {
     @Measurement(iterations = 5)
     @Benchmark
     public void structLogger1CallWithParametrizedMessage() {
-        structLogger.info("test {} string literal {}")
+        structLogger.info("Event with double={} and boolean={}")
                 .varDouble(1.2)
                 .varBoolean(false)
                 .log();
@@ -112,7 +112,7 @@ public class Slf4jToFileBenchmark {
     @Measurement(iterations = 5)
     @Benchmark
     public void structuredLogging1Call() {
-        structLoggerNoMessageParametrization.info("test string literal")
+        structLoggerNoMessageParametrization.info("Event with double and boolean")
                 .varDouble(1.2)
                 .varBoolean(false)
                 .log();
@@ -154,7 +154,7 @@ public class Slf4jToFileBenchmark {
     @Measurement(iterations = 5)
     @Benchmark
     public void notStructuredLogging1Call() {
-        logger.info("test {} string literal {}", 1.2, false);
+        logger.info("log double={} and boolean={}", 1.2, false);
     }
 
     @Warmup(iterations = 5)
@@ -187,111 +187,111 @@ public class Slf4jToFileBenchmark {
 
     private void structLogger8CallsWithParametrizedMessage(int number) {
         for(int i = 0; i < number; i++) {
-            structLogger.info("test {} string literal {}")
+            structLogger.info("Event with double={} and boolean={}")
                     .varDouble(1.2)
                     .varBoolean(false)
                     .log();
 
-            structLogger.info("test {}")
+            structLogger.info("Event with integer={}")
                     .varInt(1)
                     .log();
 
-            structLogger.info("test {} string literal {} for {}")
+            structLogger.info("Event with double={} and boolean={} and string={}")
                     .varDouble(1.2)
                     .varBoolean(false)
-                    .varString("ahojky")
+                    .varString("test string value")
                     .log();
 
-            structLogger.info("test {} string literal {} for long {} and {}")
+            structLogger.info("Event with double={} and boolean={} and long={} an string={}")
                     .varDouble(1.2)
                     .varBoolean(false)
                     .varLong(1)
-                    .varString("tudu")
+                    .varString("test string value")
                     .log();
 
-            structLogger.info("testik {}")
+            structLogger.info("Event with double={}")
                     .varDouble(1.2)
                     .log();
 
-            structLogger.error("errorek {} {} {}")
+            structLogger.error("Event with string={} and long={} and boolean={}")
                     .varString("super error")
                     .varLong(42)
                     .varBoolean(true)
                     .log();
 
-            structLogger.warn("warning {} {} {}")
+            structLogger.warn("Event with boolean={} and boolean={} and integer={}")
                     .varBoolean(true)
                     .varBoolean(false)
                     .varInt(1)
                     .log();
 
-            structLogger.error("ulala")
+            structLogger.error("Event with no parameters")
                     .log();
         }
     }
 
     private void structLogger8Calls(int number) {
         for(int i = 0; i < number; i++) {
-            structLoggerNoMessageParametrization.info("test string literal")
+            structLoggerNoMessageParametrization.info("Event with double and boolean")
                     .varDouble(1.2)
                     .varBoolean(false)
                     .log();
 
-            structLoggerNoMessageParametrization.info("test")
+            structLoggerNoMessageParametrization.info("Event with integer")
                     .varInt(1)
                     .log();
 
-            structLoggerNoMessageParametrization.info("test string literal for blabla")
+            structLoggerNoMessageParametrization.info("Event with double and boolean and string")
                     .varDouble(1.2)
                     .varBoolean(false)
-                    .varString("ahojky")
+                    .varString("test string value")
                     .log();
 
-            structLoggerNoMessageParametrization.info("test string literal for long")
+            structLoggerNoMessageParametrization.info("Event with double and boolean and long and string")
                     .varDouble(1.2)
                     .varBoolean(false)
                     .varLong(1)
-                    .varString("tudu")
+                    .varString("test string")
                     .log();
 
-            structLoggerNoMessageParametrization.info("testik")
+            structLoggerNoMessageParametrization.info("Event with double")
                     .varDouble(1.2)
                     .log();
 
-            structLoggerNoMessageParametrization.error("errorek")
+            structLoggerNoMessageParametrization.error("Event with string and long and boolean")
                     .varString("super error")
                     .varLong(42)
                     .varBoolean(true)
                     .log();
 
-            structLoggerNoMessageParametrization.warn("warning")
+            structLoggerNoMessageParametrization.warn("Event with two booleans and integer")
                     .varBoolean(true)
                     .varBoolean(false)
                     .varInt(1)
                     .log();
 
-            structLoggerNoMessageParametrization.error("ulala")
+            structLoggerNoMessageParametrization.error("Event with no parameters")
                     .log();
         }
     }
 
     private void slf4jLog8Calls(int number) {
         for(int i = 0; i < number; i++) {
-            logger.info("test {} string literal {}", 1.2, false);
+            logger.info("log string={} and boolean={}", 1.2, false);
 
-            logger.info("test {}", 1);
+            logger.info("log integer={}", 1);
 
-            logger.info("test {} string literal {} for {}", 1.2, false, "ahojky");
+            logger.info("log double={} and boolean={} and string={}", 1.2, false, "ahojky");
 
-            logger.info("test {} string literal {} for long {} and {}", 1.2, false, 1, "tudu");
+            logger.info("log double={} and boolean={} and integer={} and string={}", 1.2, false, 1, "tudu");
 
-            logger.info("testik {}", 1.2);
+            logger.info("log double={}", 1.2);
 
-            logger.error("errorek {} {} {}", "super error", 42, true);
+            logger.error("log integer={} and boolean={}", 42, true);
 
-            logger.warn("warning {} {} {}", true, false, 1);
+            logger.warn("log boolean={} and boolean={} and integer={}", true, false, 1);
 
-            logger.error("ulala");
+            logger.error("log with no parameters");
         }
     }
 }
