@@ -1,11 +1,17 @@
-benchmark                                 Mode  Cnt        Score       Error  Units
-MyBenchmark.slf4jLoggerBenchmark16Calls   avgt   50    54651.162 ±  9032.821  ns/op
-MyBenchmark.slf4jLoggerBenchmark1Call     avgt   50     3928.554 ±  1122.096  ns/op
-MyBenchmark.slf4jLoggerBenchmark32Calls   avgt   50   101879.028 ±  5969.101  ns/op
-MyBenchmark.slf4jLoggerBenchmark64Calls   avgt   50   224223.931 ± 21860.690  ns/op
-MyBenchmark.slf4jLoggerBenchmark8Calls    avgt   50    27066.447 ±  1038.696  ns/op
-MyBenchmark.structLoggerBenchmark16Calls  avgt   50   369797.773 ± 91387.030  ns/op
-MyBenchmark.structLoggerBenchmark1Call    avgt   50    17295.430 ±  2779.308  ns/op
-MyBenchmark.structLoggerBenchmark32Calls  avgt   50   519471.992 ± 73416.423  ns/op
-MyBenchmark.structLoggerBenchmark64Calls  avgt   50  1016278.957 ± 82693.868  ns/op
-MyBenchmark.structLoggerBenchmark8Calls   avgt   50   131243.226 ± 18634.732  ns/op
+Benchmark                                                        Mode  Cnt       Score       Error  Units
+Slf4jToFileBenchmark.notStructuredLogging16Calls                 avgt   50   69021.574 ±  6554.035  ns/op
+Slf4jToFileBenchmark.notStructuredLogging1Call                   avgt   50    4089.827 ±   323.463  ns/op
+Slf4jToFileBenchmark.notStructuredLogging32Calls                 avgt   50  127581.868 ±  1537.795  ns/op
+Slf4jToFileBenchmark.notStructuredLogging64Calls                 avgt   50  252381.848 ±  2582.651  ns/op
+Slf4jToFileBenchmark.notStructuredLogging8Calls                  avgt   50   31434.026 ±   304.558  ns/op
+Slf4jToFileBenchmark.structLogger16CallsWithParametrizedMessage  avgt   50  220058.069 ±  1382.094  ns/op
+Slf4jToFileBenchmark.structLogger1CallWithParametrizedMessage    avgt   50   13527.279 ±   103.567  ns/op
+Slf4jToFileBenchmark.structLogger32CallsWithParametrizedMessage  avgt   50  440602.469 ±  2910.429  ns/op
+Slf4jToFileBenchmark.structLogger64CallsWithParametrizedMessage  avgt   50  890137.945 ±  8382.389  ns/op
+Slf4jToFileBenchmark.structLogger8CallsWithParametrizedMessage   avgt   50  111694.272 ±  1107.756  ns/op
+Slf4jToFileBenchmark.structuredLogging16Calls                    avgt   50  216397.658 ± 24530.570  ns/op
+Slf4jToFileBenchmark.structuredLogging1Call                      avgt   50   12887.130 ±   119.670  ns/op
+Slf4jToFileBenchmark.structuredLogging32Calls                    avgt   50  422795.569 ±  2763.076  ns/op
+Slf4jToFileBenchmark.structuredLogging64Calls                    avgt   50  853399.112 ± 10150.354  ns/op
+Slf4jToFileBenchmark.structuredLogging8Calls                     avgt   50  105034.647 ±   810.900  ns/op
+

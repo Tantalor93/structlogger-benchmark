@@ -31,7 +31,7 @@
 
 package cz.muni.fi;
 
-import cz.muni.fi.annotation.VarContext;
+import cz.muni.fi.annotation.LoggerContext;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Measurement;
@@ -45,17 +45,32 @@ import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-public class MyBenchmark {
+public class Slf4jToFileBenchmark {
 
-    @VarContext(context = DefaultContext.class)
-    private static StructLogger<DefaultContext> structLogger = StructLogger.instance();
+    @LoggerContext(context = DefaultContext.class)
+    private static EventLogger<DefaultContext> structLogger = new EventLogger<>(
+            new Slf4jLoggingCallback(
+                    LoggerFactory.getLogger(
+                            Slf4jToFileBenchmark.class.getSimpleName()
+                    )
+            )
+    );
 
-    private static Logger logger = LoggerFactory.getLogger("MyBenchmark2");
+    private static Logger logger = LoggerFactory.getLogger(Slf4jToFileBenchmark.class.getSimpleName() + "2");
+
+    @LoggerContext(context = DefaultContextWithoutParametrization.class)
+    private static EventLogger<DefaultContext> structLoggerNoMessageParametrization = new EventLogger<>(
+            new Slf4jLoggingCallback(
+                    LoggerFactory.getLogger(
+                            Slf4jToFileBenchmark.class.getSimpleName() + "3"
+                    )
+            )
+    );
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void structLoggerBenchmark1Call() {
+    public void structLogger1CallWithParametrizedMessage() {
         structLogger.info("test {} string literal {}")
                 .varDouble(1.2)
                 .varBoolean(false)
@@ -65,67 +80,112 @@ public class MyBenchmark {
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void slf4jLoggerBenchmark1Call() {
-        logger.info("test {} string literal {}", 1.2, false);
+    public void structLogger8CallsWithParametrizedMessage() {
+        structLogger8CallsWithParametrizedMessage(1);
     }
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void structLoggerBenchmark8Calls() {
+    public void structLogger16CallsWithParametrizedMessage() {
+        structLogger8CallsWithParametrizedMessage(2);
+    }
+
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void structLogger32CallsWithParametrizedMessage() {
+        structLogger8CallsWithParametrizedMessage(4);
+    }
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void structLogger64CallsWithParametrizedMessage() {
+        structLogger8CallsWithParametrizedMessage(8);
+    }
+
+    // structured logging with no message parametrization
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void structuredLogging1Call() {
+        structLoggerNoMessageParametrization.info("test string literal")
+                .varDouble(1.2)
+                .varBoolean(false)
+                .log();
+    }
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void structuredLogging8Calls() {
         structLogger8Calls(1);
     }
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void slf4jLoggerBenchmark8Calls() {
-        slf4jLog8Calls(1);
-    }
-
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 5)
-    @Benchmark
-    public void structLoggerBenchmark16Calls() {
+    public void structuredLogging16Calls() {
         structLogger8Calls(2);
     }
 
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 5)
-    @Benchmark
-    public void slf4jLoggerBenchmark16Calls() {
-        slf4jLog8Calls(2);
-    }
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void structLoggerBenchmark32Calls() {
+    public void structuredLogging32Calls() {
         structLogger8Calls(4);
     }
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void slf4jLoggerBenchmark32Calls() {
+    public void structuredLogging64Calls() {
+        structLogger8Calls(8);
+    }
+
+
+    //not structured logging
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void notStructuredLogging1Call() {
+        logger.info("test {} string literal {}", 1.2, false);
+    }
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void notStructuredLogging8Calls() {
+        slf4jLog8Calls(1);
+    }
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void notStructuredLogging16Calls() {
+        slf4jLog8Calls(2);
+    }
+
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 5)
+    @Benchmark
+    public void notStructuredLogging32Calls() {
         slf4jLog8Calls(4);
     }
 
     @Warmup(iterations = 5)
     @Measurement(iterations = 5)
     @Benchmark
-    public void structLoggerBenchmark64Calls() {
-        structLogger8Calls(8);
-    }
-
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 5)
-    @Benchmark
-    public void slf4jLoggerBenchmark64Calls() {
+    public void notStructuredLogging64Calls() {
         slf4jLog8Calls(8);
     }
 
-    private void structLogger8Calls(int number) {
+    private void structLogger8CallsWithParametrizedMessage(int number) {
         for(int i = 0; i < number; i++) {
             structLogger.info("test {} string literal {}")
                     .varDouble(1.2)
@@ -166,6 +226,51 @@ public class MyBenchmark {
                     .log();
 
             structLogger.error("ulala")
+                    .log();
+        }
+    }
+
+    private void structLogger8Calls(int number) {
+        for(int i = 0; i < number; i++) {
+            structLoggerNoMessageParametrization.info("test string literal")
+                    .varDouble(1.2)
+                    .varBoolean(false)
+                    .log();
+
+            structLoggerNoMessageParametrization.info("test")
+                    .varInt(1)
+                    .log();
+
+            structLoggerNoMessageParametrization.info("test string literal for blabla")
+                    .varDouble(1.2)
+                    .varBoolean(false)
+                    .varString("ahojky")
+                    .log();
+
+            structLoggerNoMessageParametrization.info("test string literal for long")
+                    .varDouble(1.2)
+                    .varBoolean(false)
+                    .varLong(1)
+                    .varString("tudu")
+                    .log();
+
+            structLoggerNoMessageParametrization.info("testik")
+                    .varDouble(1.2)
+                    .log();
+
+            structLoggerNoMessageParametrization.error("errorek")
+                    .varString("super error")
+                    .varLong(42)
+                    .varBoolean(true)
+                    .log();
+
+            structLoggerNoMessageParametrization.warn("warning")
+                    .varBoolean(true)
+                    .varBoolean(false)
+                    .varInt(1)
+                    .log();
+
+            structLoggerNoMessageParametrization.error("ulala")
                     .log();
         }
     }
